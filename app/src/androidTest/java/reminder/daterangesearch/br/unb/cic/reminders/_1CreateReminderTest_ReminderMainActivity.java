@@ -1215,321 +1215,321 @@ public class _1CreateReminderTest_ReminderMainActivity extends
 
 
 
-    public void testCreateInvalidDateReminder_shouldNotBeShownOnReminderMainUi() throws Exception {
-        // Unlock the screen
-        solo.unlockScreen();
-
-        // Click on "+" button
-        solo.clickOnView(solo.getView(R.id.menu_addReminder));
-
-        // Search for EditText of reminder title
-        EditText etReminderTitle = (EditText) solo.getView(R.id.edtReminder);
-
-        // Clean the reminder title EditText
-        solo.clearEditText(etReminderTitle);
-
-        // Enter with a title for reminder
-        solo.enterText(etReminderTitle,"Read some book");
-
-        // Same process of EditText for reminder title in EditText for reminder details
-        EditText etReminderDetails = (EditText) solo.getView(R.id.edtDetails);
-        solo.clearEditText(etReminderDetails);
-        solo.enterText(etReminderDetails, "V for Vendetta");
-
-        // Click on spinner of date initial
-        solo.clickOnView(solo.getView(R.id.spinnerDateStart));
-        // Click on "+ Select" option of date spinner initial
-        solo.clickOnText("+ Select");
-
-        // Wait for DatePickerFragment
-        solo.waitForFragmentByTag("datePicker");
-
-        // Get the DatePickerFragment
-        DialogFragment dateStartFragment = (DialogFragment) solo.getCurrentActivity()
-                .getFragmentManager().findFragmentByTag("datePicker");
-
-        // Wait until DatePickerFragment is visible on screen
-        assertNotNull(dateStartFragment);
-        while (!(isShown(dateStartFragment))) {
-            System.out.println("Dialog fragment visible: " + isShown(dateStartFragment));
-            solo.sleep(100);
-        }
-
-        // Type cast for DatePickerDialog
-        DatePickerDialog dateStartPicker = (DatePickerDialog) dateStartFragment.getDialog();
-
-        // Get a date in future
-        Calendar dayInFuture = DayInFuture();
-
-        // Set the date
-        assertNotNull(dateStartPicker);
-        solo.setDatePicker(dateStartPicker.getDatePicker(), dayInFuture.get(Calendar.YEAR),
-                dayInFuture.get(Calendar.MONTH), dayInFuture.get(Calendar.DAY_OF_MONTH));
-
-        // Click on "OK" button
-        solo.clickOnText("OK");
-
-        // Click on spinner of time
-        solo.clickOnView(solo.getView(R.id.spinnerTimeStart));
-        // Click on "+ Select" option of time spinner
-        solo.clickOnText("+ Select");
-
-        // Wait for TimePickerFragment
-        solo.waitForFragmentByTag("timePicker");
-
-        // Get the DatePickerFragment
-        DialogFragment timeStartFragment = (DialogFragment) solo.getCurrentActivity()
-                .getFragmentManager().findFragmentByTag("timePicker");
-
-        // Wait until DatePickerFragment is visible on screen
-        assertNotNull(timeStartFragment);
-        while (!(isShown(timeStartFragment))) {
-            System.out.println("Dialog fragment visible: " + isShown(timeStartFragment));
-            solo.sleep(100);
-        }
-
-        // Type cast for TimePickerDialog
-        TimePickerDialog timeStartPicker = (TimePickerDialog) timeStartFragment.getDialog();
-
-        // Set the time
-        assertNotNull(timeStartPicker);
-        timeStartPicker.updateTime(dayInFuture.get(Calendar.HOUR_OF_DAY), dayInFuture.get(Calendar.MINUTE));
-
-        // Click on "OK" button
-        solo.clickOnText("OK");
-
-        // Click on spinner of date final
-        solo.clickOnView(solo.getView(R.id.spinnerDateFinal));
-        // Click on "+ Select" option of date spinner final
-        solo.clickOnText("+ Select");
-
-        // Wait for DatePickerFragment
-        solo.waitForFragmentByTag("datePicker");
-
-        // Get the DatePickerFragment
-        DialogFragment dateFinalFragment = (DialogFragment) solo.getCurrentActivity()
-                .getFragmentManager().findFragmentByTag("datePicker");
-
-        // Wait until DatePickerFragment is visible on screen
-        assertNotNull(dateFinalFragment);
-        while (!(isShown(dateFinalFragment))) {
-            System.out.println("Dialog fragment visible: " + isShown(dateFinalFragment));
-            solo.sleep(100);
-        }
-
-        // Type cast for DatePickerDialog
-        DatePickerDialog dateFinalPicker = (DatePickerDialog) dateFinalFragment.getDialog();
-
-        // Get a date in future
-        Calendar dayInPast = DayInPast();
-
-        // Set the date
-        assertNotNull(dateFinalPicker);
-        solo.setDatePicker(dateFinalPicker.getDatePicker(), dayInPast.get(Calendar.YEAR),
-                dayInPast.get(Calendar.MONTH), dayInPast.get(Calendar.DAY_OF_MONTH));
-
-        // Click on "OK" button
-        solo.clickOnText("OK");
-
-        // Click on spinner of time
-        solo.clickOnView(solo.getView(R.id.spinnerTimeFinal));
-        // Click on "+ Select" option of time spinner
-        solo.clickOnText("+ Select");
-
-        // Wait for TimePickerFragment
-        solo.waitForFragmentByTag("timePicker");
-
-        // Get the DatePickerFragment
-        DialogFragment timeFinalFragment = (DialogFragment) solo.getCurrentActivity()
-                .getFragmentManager().findFragmentByTag("timePicker");
-
-        // Wait until DatePickerFragment is visible on screen
-        assertNotNull(timeFinalFragment);
-        while (!(isShown(timeFinalFragment))) {
-            System.out.println("Dialog fragment visible: " + isShown(timeFinalFragment));
-            solo.sleep(100);
-        }
-
-        // Type cast for TimePickerDialog
-        TimePickerDialog timeFinalPicker = (TimePickerDialog) timeFinalFragment.getDialog();
-
-        // Set the time
-        assertNotNull(timeFinalPicker);
-        timeFinalPicker.updateTime(dayInPast.get(Calendar.HOUR_OF_DAY), dayInPast.get(Calendar.MINUTE));
-
-        // Click on "OK" button
-        solo.clickOnText("OK");
-
-        // Click on "Save" button
-        solo.clickOnText("Save");
-
-        // Verify if message of error was showed
-        solo.waitForText("Invalid date.");
-
-        // Verify if the the current activity is ReminderMainActivity
-        solo.assertCurrentActivity("Expected Reminder Main Activity", ReminderMainActivity.class);
-
-        // Verify if the reminder was be edited
-        assertFalse(solo.searchText("Read some book"));
-    }
-
-    public void testCreateInvalidTimeReminder_shouldNotBeShownOnReminderMainUi() throws Exception {
-        // Unlock the screen
-        solo.unlockScreen();
-
-        // Click on "+" button
-        solo.clickOnView(solo.getView(R.id.menu_addReminder));
-
-        // Search for EditText of reminder title
-        EditText etReminderTitle = (EditText) solo.getView(R.id.edtReminder);
-
-        // Clean the reminder title EditText
-        solo.clearEditText(etReminderTitle);
-
-        // Enter with a title for reminder
-        solo.enterText(etReminderTitle,"Read some old book");
-
-        // Same process of EditText for reminder title in EditText for reminder details
-        EditText etReminderDetails = (EditText) solo.getView(R.id.edtDetails);
-        solo.clearEditText(etReminderDetails);
-        solo.enterText(etReminderDetails, "V for Vendetta");
-
-        // Click on spinner of date initial
-        solo.clickOnView(solo.getView(R.id.spinnerDateStart));
-        // Click on "+ Select" option of date spinner initial
-        solo.clickOnText("+ Select");
-
-        // Wait for DatePickerFragment
-        solo.waitForFragmentByTag("datePicker");
-
-        // Get the DatePickerFragment
-        DialogFragment dateStartFragment = (DialogFragment) solo.getCurrentActivity()
-                .getFragmentManager().findFragmentByTag("datePicker");
-
-        // Wait until DatePickerFragment is visible on screen
-        assertNotNull(dateStartFragment);
-        while (!(isShown(dateStartFragment))) {
-            System.out.println("Dialog fragment visible: " + isShown(dateStartFragment));
-            solo.sleep(100);
-        }
-
-        // Type cast for DatePickerDialog
-        DatePickerDialog dateStartPicker = (DatePickerDialog) dateStartFragment.getDialog();
-
-        // Get a date in future
-        Calendar dayInFuture = DayInFuture();
-
-        // Set the date
-        assertNotNull(dateStartPicker);
-        solo.setDatePicker(dateStartPicker.getDatePicker(), dayInFuture.get(Calendar.YEAR),
-                dayInFuture.get(Calendar.MONTH), dayInFuture.get(Calendar.DAY_OF_MONTH));
-
-        // Click on "OK" button
-        solo.clickOnText("OK");
-
-        // Click on spinner of time
-        solo.clickOnView(solo.getView(R.id.spinnerTimeStart));
-        // Click on "+ Select" option of time spinner
-        solo.clickOnText("+ Select");
-
-        // Wait for TimePickerFragment
-        solo.waitForFragmentByTag("timePicker");
-
-        // Get the DatePickerFragment
-        DialogFragment timeStartFragment = (DialogFragment) solo.getCurrentActivity()
-                .getFragmentManager().findFragmentByTag("timePicker");
-
-        // Wait until DatePickerFragment is visible on screen
-        assertNotNull(timeStartFragment);
-        while (!(isShown(timeStartFragment))) {
-            System.out.println("Dialog fragment visible: " + isShown(timeStartFragment));
-            solo.sleep(100);
-        }
-
-        // Type cast for TimePickerDialog
-        TimePickerDialog timeStartPicker = (TimePickerDialog) timeStartFragment.getDialog();
-
-        // Set the time
-        assertNotNull(timeStartPicker);
-        timeStartPicker.updateTime(dayInFuture.get(Calendar.HOUR_OF_DAY), dayInFuture.get(Calendar.MINUTE));
-
-        // Click on "OK" button
-        solo.clickOnText("OK");
-
-        // Click on spinner of date final
-        solo.clickOnView(solo.getView(R.id.spinnerDateFinal));
-        // Click on "+ Select" option of date spinner final
-        solo.clickOnText("+ Select");
-
-        // Wait for DatePickerFragment
-        solo.waitForFragmentByTag("datePicker");
-
-        // Get the DatePickerFragment
-        DialogFragment dateFinalFragment = (DialogFragment) solo.getCurrentActivity()
-                .getFragmentManager().findFragmentByTag("datePicker");
-
-        // Wait until DatePickerFragment is visible on screen
-        assertNotNull(dateFinalFragment);
-        while (!(isShown(dateFinalFragment))) {
-            System.out.println("Dialog fragment visible: " + isShown(dateFinalFragment));
-            solo.sleep(100);
-        }
-
-        // Type cast for DatePickerDialog
-        DatePickerDialog dateFinalPicker = (DatePickerDialog) dateFinalFragment.getDialog();
-
-        // Get a date in future
-        Calendar dayInFuture2 = DayInFuture();
-
-        // Set the date
-        assertNotNull(dateFinalPicker);
-        solo.setDatePicker(dateFinalPicker.getDatePicker(), dayInFuture2.get(Calendar.YEAR),
-                dayInFuture2.get(Calendar.MONTH), dayInFuture2.get(Calendar.DAY_OF_MONTH));
-
-        // Click on "OK" button
-        solo.clickOnText("OK");
-
-        // Click on spinner of time
-        solo.clickOnView(solo.getView(R.id.spinnerTimeFinal));
-        // Click on "+ Select" option of time spinner
-        solo.clickOnText("+ Select");
-
-        // Wait for TimePickerFragment
-        solo.waitForFragmentByTag("timePicker");
-
-        // Get the DatePickerFragment
-        DialogFragment timeFinalFragment = (DialogFragment) solo.getCurrentActivity()
-                .getFragmentManager().findFragmentByTag("timePicker");
-
-        // Wait until DatePickerFragment is visible on screen
-        assertNotNull(timeFinalFragment);
-        while (!(isShown(timeFinalFragment))) {
-            System.out.println("Dialog fragment visible: " + isShown(timeFinalFragment));
-            solo.sleep(100);
-        }
-
-        // Type cast for TimePickerDialog
-        TimePickerDialog timeFinalPicker = (TimePickerDialog) timeFinalFragment.getDialog();
-
-        // Set the time
-        assertNotNull(timeFinalPicker);
-        timeFinalPicker.updateTime(8, 0);
-
-        // Click on "OK" button
-        solo.clickOnText("OK");
-
-        // Click on "Save" button
-        solo.clickOnText("Save");
-
-        // Verify if message of error was showed
-        solo.waitForText("Invalid time.");
-
-        // Verify if the the current activity is ReminderMainActivity
-        solo.assertCurrentActivity("Expected Reminder Main Activity", ReminderMainActivity.class);
-
-        // Verify if the reminder was be edited
-        assertFalse(solo.searchText("Read some old book"));
-    }
+//    public void testCreateInvalidDateReminder_shouldNotBeShownOnReminderMainUi() throws Exception {
+//        // Unlock the screen
+//        solo.unlockScreen();
+//
+//        // Click on "+" button
+//        solo.clickOnView(solo.getView(R.id.menu_addReminder));
+//
+//        // Search for EditText of reminder title
+//        EditText etReminderTitle = (EditText) solo.getView(R.id.edtReminder);
+//
+//        // Clean the reminder title EditText
+//        solo.clearEditText(etReminderTitle);
+//
+//        // Enter with a title for reminder
+//        solo.enterText(etReminderTitle,"Read some book");
+//
+//        // Same process of EditText for reminder title in EditText for reminder details
+//        EditText etReminderDetails = (EditText) solo.getView(R.id.edtDetails);
+//        solo.clearEditText(etReminderDetails);
+//        solo.enterText(etReminderDetails, "V for Vendetta");
+//
+//        // Click on spinner of date initial
+//        solo.clickOnView(solo.getView(R.id.spinnerDateStart));
+//        // Click on "+ Select" option of date spinner initial
+//        solo.clickOnText("+ Select");
+//
+//        // Wait for DatePickerFragment
+//        solo.waitForFragmentByTag("datePicker");
+//
+//        // Get the DatePickerFragment
+//        DialogFragment dateStartFragment = (DialogFragment) solo.getCurrentActivity()
+//                .getFragmentManager().findFragmentByTag("datePicker");
+//
+//        // Wait until DatePickerFragment is visible on screen
+//        assertNotNull(dateStartFragment);
+//        while (!(isShown(dateStartFragment))) {
+//            System.out.println("Dialog fragment visible: " + isShown(dateStartFragment));
+//            solo.sleep(100);
+//        }
+//
+//        // Type cast for DatePickerDialog
+//        DatePickerDialog dateStartPicker = (DatePickerDialog) dateStartFragment.getDialog();
+//
+//        // Get a date in future
+//        Calendar dayInFuture = DayInFuture();
+//
+//        // Set the date
+//        assertNotNull(dateStartPicker);
+//        solo.setDatePicker(dateStartPicker.getDatePicker(), dayInFuture.get(Calendar.YEAR),
+//                dayInFuture.get(Calendar.MONTH), dayInFuture.get(Calendar.DAY_OF_MONTH));
+//
+//        // Click on "OK" button
+//        solo.clickOnText("OK");
+//
+//        // Click on spinner of time
+//        solo.clickOnView(solo.getView(R.id.spinnerTimeStart));
+//        // Click on "+ Select" option of time spinner
+//        solo.clickOnText("+ Select");
+//
+//        // Wait for TimePickerFragment
+//        solo.waitForFragmentByTag("timePicker");
+//
+//        // Get the DatePickerFragment
+//        DialogFragment timeStartFragment = (DialogFragment) solo.getCurrentActivity()
+//                .getFragmentManager().findFragmentByTag("timePicker");
+//
+//        // Wait until DatePickerFragment is visible on screen
+//        assertNotNull(timeStartFragment);
+//        while (!(isShown(timeStartFragment))) {
+//            System.out.println("Dialog fragment visible: " + isShown(timeStartFragment));
+//            solo.sleep(100);
+//        }
+//
+//        // Type cast for TimePickerDialog
+//        TimePickerDialog timeStartPicker = (TimePickerDialog) timeStartFragment.getDialog();
+//
+//        // Set the time
+//        assertNotNull(timeStartPicker);
+//        timeStartPicker.updateTime(dayInFuture.get(Calendar.HOUR_OF_DAY), dayInFuture.get(Calendar.MINUTE));
+//
+//        // Click on "OK" button
+//        solo.clickOnText("OK");
+//
+//        // Click on spinner of date final
+//        solo.clickOnView(solo.getView(R.id.spinnerDateFinal));
+//        // Click on "+ Select" option of date spinner final
+//        solo.clickOnText("+ Select");
+//
+//        // Wait for DatePickerFragment
+//        solo.waitForFragmentByTag("datePicker");
+//
+//        // Get the DatePickerFragment
+//        DialogFragment dateFinalFragment = (DialogFragment) solo.getCurrentActivity()
+//                .getFragmentManager().findFragmentByTag("datePicker");
+//
+//        // Wait until DatePickerFragment is visible on screen
+//        assertNotNull(dateFinalFragment);
+//        while (!(isShown(dateFinalFragment))) {
+//            System.out.println("Dialog fragment visible: " + isShown(dateFinalFragment));
+//            solo.sleep(100);
+//        }
+//
+//        // Type cast for DatePickerDialog
+//        DatePickerDialog dateFinalPicker = (DatePickerDialog) dateFinalFragment.getDialog();
+//
+//        // Get a date in future
+//        Calendar dayInPast = DayInPast();
+//
+//        // Set the date
+//        assertNotNull(dateFinalPicker);
+//        solo.setDatePicker(dateFinalPicker.getDatePicker(), dayInPast.get(Calendar.YEAR),
+//                dayInPast.get(Calendar.MONTH), dayInPast.get(Calendar.DAY_OF_MONTH));
+//
+//        // Click on "OK" button
+//        solo.clickOnText("OK");
+//
+//        // Click on spinner of time
+//        solo.clickOnView(solo.getView(R.id.spinnerTimeFinal));
+//        // Click on "+ Select" option of time spinner
+//        solo.clickOnText("+ Select");
+//
+//        // Wait for TimePickerFragment
+//        solo.waitForFragmentByTag("timePicker");
+//
+//        // Get the DatePickerFragment
+//        DialogFragment timeFinalFragment = (DialogFragment) solo.getCurrentActivity()
+//                .getFragmentManager().findFragmentByTag("timePicker");
+//
+//        // Wait until DatePickerFragment is visible on screen
+//        assertNotNull(timeFinalFragment);
+//        while (!(isShown(timeFinalFragment))) {
+//            System.out.println("Dialog fragment visible: " + isShown(timeFinalFragment));
+//            solo.sleep(100);
+//        }
+//
+//        // Type cast for TimePickerDialog
+//        TimePickerDialog timeFinalPicker = (TimePickerDialog) timeFinalFragment.getDialog();
+//
+//        // Set the time
+//        assertNotNull(timeFinalPicker);
+//        timeFinalPicker.updateTime(dayInPast.get(Calendar.HOUR_OF_DAY), dayInPast.get(Calendar.MINUTE));
+//
+//        // Click on "OK" button
+//        solo.clickOnText("OK");
+//
+//        // Click on "Save" button
+//        solo.clickOnText("Save");
+//
+//        // Verify if message of error was showed
+//        solo.waitForText("Invalid date.");
+//
+//        // Verify if the the current activity is ReminderMainActivity
+//        solo.assertCurrentActivity("Expected Reminder Main Activity", ReminderMainActivity.class);
+//
+//        // Verify if the reminder was be edited
+//        assertFalse(solo.searchText("Read some book"));
+//    }
+//
+//    public void testCreateInvalidTimeReminder_shouldNotBeShownOnReminderMainUi() throws Exception {
+//        // Unlock the screen
+//        solo.unlockScreen();
+//
+//        // Click on "+" button
+//        solo.clickOnView(solo.getView(R.id.menu_addReminder));
+//
+//        // Search for EditText of reminder title
+//        EditText etReminderTitle = (EditText) solo.getView(R.id.edtReminder);
+//
+//        // Clean the reminder title EditText
+//        solo.clearEditText(etReminderTitle);
+//
+//        // Enter with a title for reminder
+//        solo.enterText(etReminderTitle,"Read some old book");
+//
+//        // Same process of EditText for reminder title in EditText for reminder details
+//        EditText etReminderDetails = (EditText) solo.getView(R.id.edtDetails);
+//        solo.clearEditText(etReminderDetails);
+//        solo.enterText(etReminderDetails, "V for Vendetta");
+//
+//        // Click on spinner of date initial
+//        solo.clickOnView(solo.getView(R.id.spinnerDateStart));
+//        // Click on "+ Select" option of date spinner initial
+//        solo.clickOnText("+ Select");
+//
+//        // Wait for DatePickerFragment
+//        solo.waitForFragmentByTag("datePicker");
+//
+//        // Get the DatePickerFragment
+//        DialogFragment dateStartFragment = (DialogFragment) solo.getCurrentActivity()
+//                .getFragmentManager().findFragmentByTag("datePicker");
+//
+//        // Wait until DatePickerFragment is visible on screen
+//        assertNotNull(dateStartFragment);
+//        while (!(isShown(dateStartFragment))) {
+//            System.out.println("Dialog fragment visible: " + isShown(dateStartFragment));
+//            solo.sleep(100);
+//        }
+//
+//        // Type cast for DatePickerDialog
+//        DatePickerDialog dateStartPicker = (DatePickerDialog) dateStartFragment.getDialog();
+//
+//        // Get a date in future
+//        Calendar dayInFuture = DayInFuture();
+//
+//        // Set the date
+//        assertNotNull(dateStartPicker);
+//        solo.setDatePicker(dateStartPicker.getDatePicker(), dayInFuture.get(Calendar.YEAR),
+//                dayInFuture.get(Calendar.MONTH), dayInFuture.get(Calendar.DAY_OF_MONTH));
+//
+//        // Click on "OK" button
+//        solo.clickOnText("OK");
+//
+//        // Click on spinner of time
+//        solo.clickOnView(solo.getView(R.id.spinnerTimeStart));
+//        // Click on "+ Select" option of time spinner
+//        solo.clickOnText("+ Select");
+//
+//        // Wait for TimePickerFragment
+//        solo.waitForFragmentByTag("timePicker");
+//
+//        // Get the DatePickerFragment
+//        DialogFragment timeStartFragment = (DialogFragment) solo.getCurrentActivity()
+//                .getFragmentManager().findFragmentByTag("timePicker");
+//
+//        // Wait until DatePickerFragment is visible on screen
+//        assertNotNull(timeStartFragment);
+//        while (!(isShown(timeStartFragment))) {
+//            System.out.println("Dialog fragment visible: " + isShown(timeStartFragment));
+//            solo.sleep(100);
+//        }
+//
+//        // Type cast for TimePickerDialog
+//        TimePickerDialog timeStartPicker = (TimePickerDialog) timeStartFragment.getDialog();
+//
+//        // Set the time
+//        assertNotNull(timeStartPicker);
+//        timeStartPicker.updateTime(dayInFuture.get(Calendar.HOUR_OF_DAY), dayInFuture.get(Calendar.MINUTE));
+//
+//        // Click on "OK" button
+//        solo.clickOnText("OK");
+//
+//        // Click on spinner of date final
+//        solo.clickOnView(solo.getView(R.id.spinnerDateFinal));
+//        // Click on "+ Select" option of date spinner final
+//        solo.clickOnText("+ Select");
+//
+//        // Wait for DatePickerFragment
+//        solo.waitForFragmentByTag("datePicker");
+//
+//        // Get the DatePickerFragment
+//        DialogFragment dateFinalFragment = (DialogFragment) solo.getCurrentActivity()
+//                .getFragmentManager().findFragmentByTag("datePicker");
+//
+//        // Wait until DatePickerFragment is visible on screen
+//        assertNotNull(dateFinalFragment);
+//        while (!(isShown(dateFinalFragment))) {
+//            System.out.println("Dialog fragment visible: " + isShown(dateFinalFragment));
+//            solo.sleep(100);
+//        }
+//
+//        // Type cast for DatePickerDialog
+//        DatePickerDialog dateFinalPicker = (DatePickerDialog) dateFinalFragment.getDialog();
+//
+//        // Get a date in future
+//        Calendar dayInFuture2 = DayInFuture();
+//
+//        // Set the date
+//        assertNotNull(dateFinalPicker);
+//        solo.setDatePicker(dateFinalPicker.getDatePicker(), dayInFuture2.get(Calendar.YEAR),
+//                dayInFuture2.get(Calendar.MONTH), dayInFuture2.get(Calendar.DAY_OF_MONTH));
+//
+//        // Click on "OK" button
+//        solo.clickOnText("OK");
+//
+//        // Click on spinner of time
+//        solo.clickOnView(solo.getView(R.id.spinnerTimeFinal));
+//        // Click on "+ Select" option of time spinner
+//        solo.clickOnText("+ Select");
+//
+//        // Wait for TimePickerFragment
+//        solo.waitForFragmentByTag("timePicker");
+//
+//        // Get the DatePickerFragment
+//        DialogFragment timeFinalFragment = (DialogFragment) solo.getCurrentActivity()
+//                .getFragmentManager().findFragmentByTag("timePicker");
+//
+//        // Wait until DatePickerFragment is visible on screen
+//        assertNotNull(timeFinalFragment);
+//        while (!(isShown(timeFinalFragment))) {
+//            System.out.println("Dialog fragment visible: " + isShown(timeFinalFragment));
+//            solo.sleep(100);
+//        }
+//
+//        // Type cast for TimePickerDialog
+//        TimePickerDialog timeFinalPicker = (TimePickerDialog) timeFinalFragment.getDialog();
+//
+//        // Set the time
+//        assertNotNull(timeFinalPicker);
+//        timeFinalPicker.updateTime(8, 0);
+//
+//        // Click on "OK" button
+//        solo.clickOnText("OK");
+//
+//        // Click on "Save" button
+//        solo.clickOnText("Save");
+//
+//        // Verify if message of error was showed
+//        solo.waitForText("Invalid time.");
+//
+//        // Verify if the the current activity is ReminderMainActivity
+//        solo.assertCurrentActivity("Expected Reminder Main Activity", ReminderMainActivity.class);
+//
+//        // Verify if the reminder was be edited
+//        assertFalse(solo.searchText("Read some old book"));
+//    }
 
     public void testCancelCreationReminder_shouldNotBeShownOnReminderMainUi() throws Exception {
         // Unlock the screen
